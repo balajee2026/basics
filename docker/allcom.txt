@@ -1,0 +1,95 @@
+To manage Docker on Ubuntu or Lubuntu, you generally use the standard `docker` CLI. These commands cover the entire lifecycle from building images to managing volumes and networks.
+
+---
+
+## 1. Image Management
+Images are the read-only templates used to create containers.
+
+*   `docker pull <image-name>`  
+    *# Downloads an image from Docker Hub to your local machine.*
+*   `docker images`  
+    *# Lists all images currently stored on your system.*
+*   `docker build -t <name:tag> .`  
+    *# Builds a custom image from a Dockerfile in the current directory.*
+*   `docker rmi <image-id>`  
+    *# Removes a specific image from your local storage.*
+*   `docker tag <source-image> <target-repo/name:tag>`  
+    *# Creates a tag/alias for an image to prepare it for pushing to a registry.*
+
+---
+
+## 2. Container Lifecycle
+These are the most frequent commands used to run and stop applications.
+
+*   `docker run -d --name <container-name> <image>`  
+    *# Starts a new container in detached (background) mode.*
+*   `docker ps`  
+    *# Lists all currently running containers.*
+*   `docker ps -a`  
+    *# Lists all containers, including those that have stopped or exited.*
+*   `docker stop <container-id>`  
+    *# Gracefully shuts down a running container.*
+*   `docker start <container-id>`  
+    *# Restarts a previously stopped container.*
+*   `docker rm -f <container-id>`  
+    *# Forcefully removes a container (even if it is running).*
+
+---
+
+## 3. Inspection & Debugging
+Use these commands when you need to see what is happening inside a container.
+
+*   `docker logs -f <container-name>`  
+    *# Follows the live output of a container's console logs.*
+*   `docker inspect <container-name>`  
+    *# Returns low-level JSON information about a container (IP address, config, etc.).*
+*   `docker exec -it <container-name> /bin/bash`  
+    *# Opens an interactive terminal inside a running container.*
+*   `docker stats`  
+    *# Displays a live stream of CPU, memory, and network usage for all containers.*
+*   `docker diff <container-name>`  
+    *# Shows changes made to the container's filesystem since it started.*
+
+---
+
+## 4. Volume & Network Management
+Essential for data persistence and communication between containers.
+
+*   `docker volume create <volume-name>`  
+    *# Creates a managed storage area for persistent data.*
+*   `docker volume ls`  
+    *# Lists all volumes created on the host.*
+*   `docker network create <network-name>`  
+    *# Creates a custom virtual network for containers to talk to each other.*
+*   `docker network ls`  
+    *# Lists all networks (Bridge, Host, None, and custom).*
+*   `docker network connect <network> <container>`  
+    *# Connects an existing container to a specific network.*
+
+---
+
+## 5. System Cleanup
+Docker can consume a lot of disk space over time; these commands help reclaim it.
+
+*   `docker system df`  
+    *# Shows how much disk space is being used by images, containers, and volumes.*
+*   `docker container prune`  
+    *# Removes all stopped containers at once.*
+*   `docker image prune -a`  
+    *# Removes all unused images (not just dangling ones).*
+*   `docker system prune --volumes`  
+    *# The "Nuclear Option": removes all stopped containers, unused networks, and all volumes.*
+
+---
+
+## 6. Docker Compose
+While often a separate install (included in Docker Desktop/Docker Engine), it is vital for multi-container apps.
+
+*   `docker-compose up -d`  
+    *# Reads the docker-compose.yml file and starts the entire application stack.*
+*   `docker-compose down`  
+    *# Stops and removes all containers, networks, and images defined in the file.*
+*   `docker-compose restart`  
+    *# Restarts all services in the stack.*
+
+> **Ubuntu Note:** If you get a "permission denied" error, you must either run these with `sudo` or add your user to the docker group using: `sudo usermod -aG docker $USER` (requires a logout/login to take effect).

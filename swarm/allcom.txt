@@ -1,0 +1,42 @@
+## 1. Cluster Initialization & Management
+
+These commands turn a single Docker engine into a Swarm manager or worker.
+*   `docker swarm init --advertise-addr <MANAGER-IP>`  
+    *# Initializes a swarm and sets the current node as the leader manager.*
+*   `docker swarm join-token worker`  
+    *# Generates a command and token needed for a worker node to join the swarm.*
+*   `docker swarm join --token <TOKEN> <MANAGER-IP>:2377`  
+    *# Run this on a second machine to add it to the cluster as a worker.*
+*   `docker node ls`  
+    *# Lists all nodes currently in the swarm and their status (Manager/Worker/Active).*
+*   `docker swarm leave --force`  
+    *# Forces a node to leave the swarm (use --force on the last manager).*
+
+---
+
+## 2. Working with Services
+In Swarm, you don't run "containers" manually; you define "services" that the swarm manages for you.
+
+*   `docker service create --name <name> -p 80:80 --replicas 3 <image>`  
+    *# Starts a service with 3 load-balanced instances (replicas) across the cluster.*
+*   `docker service ls`  
+    *# Lists all running services and the number of active replicas.*
+*   `docker service ps <service-name>`  
+    *# Shows which specific nodes are running the tasks (containers) for a service.*
+*   `docker service inspect --pretty <service-name>`  
+    *# Displays detailed configuration of the service in a readable format.*
+*   `docker service rm <service-name>`  
+    *# Removes the service and kills all associated containers across the cluster.*
+
+---
+
+## 3. Scaling & Updates
+One of Swarm's biggest strengths is how easily it handles traffic spikes and code updates.
+
+*   `docker service scale <service-name>=10`  
+    *# Instantly scales the service up or down to the specified number of replicas.*
+*   `docker service update --image <new-image:tag> <service-name>`  
+    *# Performs a rolling update, replacing old containers with the new image version one by one.*
+*   `docker service update --publish-add 443:443 <service-name>`  
+    *# Adds a new port mapping to an existing service without deleting it.*
+*   `docker service rollback <service-name>`  

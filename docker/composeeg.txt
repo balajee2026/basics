@@ -1,0 +1,60 @@
+### The `docker-compose.yml` File
+
+```yaml
+version: '3.8'
+
+services:
+  # Service 1: The Web Application
+  web-app:
+    build: .                          # Builds the image from the Dockerfile in the current directory
+    ports:
+      - "5000:5000"                   # Maps Host Port 5000 to Container Port 5000
+    volumes:
+      - .:/code                       # Syncs the current local folder with /code in the container (Hot Reloading)
+    environment:
+      - FLASK_ENV=development         # Sets an environment variable inside the container
+    depends_on:
+      - redis-db                      # Ensures the database starts before the web app
+
+  # Service 2: The Database
+  redis-db:
+    image: "redis:alpine"             # Pulls a lightweight Redis image from Docker Hub
+    networks:
+      - backend-network               # Assigns this service to a specific virtual network
+
+networks:
+  backend-network:                    # Defines a custom network for secure inter-service communication
+    driver: bridge
+
+volumes:
+  db-data:                            # Defines a named volume for persistent data storage
+```
+
+---
+
+### How to use this file
+
+*   **To start the stack:**
+    `docker-compose up -d`  
+    *# Runs all services in the background (detached mode).*
+*   **To check the status:**
+    `docker-compose ps`  
+    *# Lists the status of the containers defined in the compose file.*
+*   **To view combined logs:**
+    `docker-compose logs -f`  
+    *# Streams logs from both the web-app and redis-db simultaneously.*
+*   **To shut down everything:**
+    `docker-compose down`  
+    *# Stops containers and removes the internal networks created by compose.*
+
+---
+
+### Key Components Explained
+
+| Component | Purpose |
+| :--- | :--- |
+| **`services`** | Defines the different containers that make up your application. |
+| **`build`** | Tells Docker to create an image from your local code instead of pulling from a registry. |
+| **`ports`** | Externalizes the application so you can access it via `localhost:5000`. |
+| **`depends_on`** | Defines the startup order (e.g., you can't log in if the DB isn't ready). |
+| **`volumes`** | Ensures that if the container is deleted, your data (like database records) remains safe on the host machine. |

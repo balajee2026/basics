@@ -1,0 +1,101 @@
+Git is a distributed version control system. On Ubuntu/Lubuntu, you use it to track changes in your source code. These commands cover the journey from starting a project to collaborating with others.
+
+---
+
+## 1. Setup & Configuration
+Do this once when you first install Git or move to a new machine.
+
+*   `git config --global user.name "Your Name"`  
+    *# Sets the name that will be attached to your commits.*
+*   `git config --global user.email "youremail@example.com"`  
+    *# Sets the email address for your commits.*
+*   `git config --list`  
+    *# Shows all current configurations to verify your setup.*
+
+---
+
+## 2. Starting a Project
+How to create a new repository or copy an existing one.
+
+*   `git init`  
+    *# Initializes a new, empty Git repository in the current folder.*
+*   `git clone <url>`  
+    *# Downloads an entire project and its version history from a remote server (like GitHub).*
+
+---
+
+## 3. The Basic Workflow (Stage & Commit)
+This is the "Save" process in Git. It happens in three stages: Working Directory → Staging Area → Repository.
+
+
+
+*   `git status`  
+    *# Shows which files have been modified and what is currently staged.*
+*   `git add <file-name>`  
+    *# Adds a specific file to the staging area (preparing it for a commit).*
+*   `git add .`  
+    *# Adds all changed and new files in the directory to the staging area.*
+*   `git commit -m "Commit message"`  
+    *# Records the staged changes permanently in the version history.*
+*   `git commit --amend`  
+    *# Lets you change the last commit message or add more forgotten changes to it.*
+
+---
+
+## 4. Branching & Merging
+Used to work on new features without breaking the main code.
+
+
+
+*   `git branch`  
+    *# Lists all local branches in the repository.*
+*   `git branch <branch-name>`  
+    *# Creates a new branch but stays on the current one.*
+*   `git checkout <branch-name>`  
+    *# Switches your working directory to the specified branch.*
+*   `git checkout -b <branch-name>`  
+    *# Shortcut: Creates a new branch and switches to it immediately.*
+*   `git merge <branch-name>`  
+    *# Combines the history of the specified branch into your current active branch.*
+*   `git branch -d <branch-name>`  
+    *# Deletes the branch once the work has been merged.*
+
+---
+
+## 5. Working with Remotes
+How to sync your code with servers like GitHub, GitLab, or Bitbucket.
+
+*   `git remote add origin <url>`  
+    *# Connects your local repository to a remote server for the first time.*
+*   `git push -u origin <branch-name>`  
+    *# Sends your local commits to the remote server and sets the default tracking.*
+*   `git pull`  
+    *# Fetches changes from the server and merges them into your local branch.*
+*   `git fetch`  
+    *# Downloads history from the server but does NOT merge it (safe way to check updates).*
+
+---
+
+## 6. Inspection & Undo
+Commands for looking back at history or fixing mistakes.
+
+*   `git log`  
+    *# Shows a chronological list of all commits made in the project.*
+*   `git log --oneline`  
+    *# A condensed, cleaner version of the commit history.*
+*   `git diff`  
+    *# Shows the exact line-by-line changes made but not yet staged.*
+*   `git reset <file-name>`  
+    *# Removes a file from the staging area but keeps its changes in the folder.*
+*   `git revert <commit-id>`  
+    *# Creates a new commit that exactly undoes the changes of a previous commit.*
+*   `git stash`  
+    *# Temporarily hides your uncommitted changes so you can work on something else.*
+*   `git stash pop`  
+    *# Brings back your "stashed" changes to your working directory.*
+
+---
+
+## 7. Cleaning Up
+*   `git clean -fd`  
+    *# Removes all untracked files and directories from your workspace (Careful! This is permanent).*

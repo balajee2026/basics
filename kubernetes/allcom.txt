@@ -1,0 +1,68 @@
+## 1. Cluster Information & Context
+Before running commands, you need to know which cluster you’re talking to.
+
+*   `kubectl cluster-info`  
+    *# Displays the address of the master and services.*
+*   `kubectl config get-contexts`  
+    *# Lists all available clusters/users saved in your kubeconfig.*
+*   `kubectl config current-context`  
+    *# Shows the cluster you are currently targeting.*
+*   `kubectl config use-context <name>`  
+    *# Switches to a different cluster or environment.*
+
+---
+
+## 2. Resource Creation & Management
+These commands handle the lifecycle of your applications.
+
+*   `kubectl apply -f <filename.yaml>`  
+    *# The gold standard: creates or updates resources defined in a YAML file.*
+*   `kubectl create deployment <name> --image=<image-name>`  
+    *# Quickly spins up a deployment without a YAML file.*
+*   `kubectl expose deployment <name> --port=80 --type=NodePort`  
+    *# Creates a service to make your application accessible.*
+*   `kubectl delete -f <filename.yaml>`  
+    *# Removes all resources defined in that specific file.*
+
+---
+
+## 3. Monitoring & Inspection (`get`, `describe`, `logs`)
+Use these to see what is actually happening inside the cluster.
+
+| Command | Purpose |
+| :--- | :--- |
+| `kubectl get pods` | Lists all pods in the default namespace. |
+| `kubectl get all -A` | Shows every resource across **all** namespaces. |
+| `kubectl describe pod <pod-name>` | Shows detailed events (useful for debugging "Pending" or "CrashLoop" states). |
+| `kubectl logs <pod-name>` | Prints the stdout/stderr from the container. |
+| `kubectl logs -f <pod-name>` | Streams logs in real-time (follow mode). |
+| `kubectl get nodes` | Checks the status and health of the physical/virtual machines in the cluster. |
+
+
+
+---
+
+## 4. Debugging & Interactivity
+Sometimes you need to "go inside" the container to see what's wrong.
+
+*   `kubectl exec -it <pod-name> -- /bin/bash`  
+    *# Opens an interactive terminal inside a running container.*
+*   `kubectl port-forward <pod-name> 8080:80`  
+    *# Forwards a local port (8080) to a pod port (80) for quick local testing.*
+*   `kubectl top pod`  
+    *# Shows CPU and Memory usage for pods (requires Metrics Server).*
+
+---
+
+## 5. Scaling & Updates
+How to handle growth and new versions of your code.
+
+*   `kubectl scale deployment <name> --replicas=5`  
+    *# Manually increases or decreases the number of running pods.*
+*   `kubectl rollout status deployment/<name>`  
+    *# Checks the progress of an update.*
+*   `kubectl rollout undo deployment/<name>`  
+    *# Immediately rolls back to the previous version if an update fails.*
+
+---
+
